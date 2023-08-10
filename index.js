@@ -6,6 +6,7 @@ const path = require('path');
 // 获取命令行参数
 const args = process.argv.slice(2);
 const cwd = process.cwd();
+
 // 引入主方法
 const scanFolderForES6Syntax = require('./scanFolder');
 

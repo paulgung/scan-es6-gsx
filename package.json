@@ -1,15 +1,16 @@
 {
-  "name": "scan-es6-gsx",
-  "version": "1.1.0",
+  "name": "@thsf2e/scanner-es6",
+  "version": "1.1.1",
   "description": "scan code contains es6",
   "main": "index.js",
   "bin": {
     "gsx": "./bin/gsx"
   },
+  "preferGlobal": true,
   "scripts": {
-    "gsx": "node index.js"
+    "gsx": "node ./index.js"
   },
-  "author": "gongshaoxu",
+  "author": "gongshaoxu@myhexin.com",
   "license": "ISC",
   "dependencies": {
     "acorn": "^8.10.0",

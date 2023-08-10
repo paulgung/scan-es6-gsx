@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 // 引入内置的 `process` 模块
 const process = require('process');
 const path = require('path');

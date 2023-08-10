@@ -4,11 +4,11 @@
   "description": "scan code contains es6",
   "main": "index.js",
   "bin": {
-    "scan-es6": "./bin/gsx"
+    "es6-check": "./bin/gsx"
   },
   "preferGlobal": true,
   "scripts": {
-    "scan-es6": "node ./index.js"
+    "es6-check": "node ./index.js"
   },
   "author": "gongshaoxu@myhexin.com",
   "license": "ISC",

@@ -53,7 +53,9 @@ function hasES6Syntax(code) {
             }
 
             // 检查 Promise 对象
-            if (node.type === 'NewExpression' && node.callee.name === 'Promise') {
+            if (node.type === 'NewExpression' &&
+                node.callee &&
+                node.callee.name === 'Promise') {
                 hasES6 = true;
             }
 
@@ -79,10 +81,10 @@ function hasES6Syntax(code) {
             }
 
             // 检查 async/await
-            if (
-                node.type === 'FunctionDeclaration' &&
-                node.async &&
-                node.body.body.some(statement => statement.type === 'AwaitExpression')
+            if ((node.type === 'FunctionDeclaration' && node.async) ||
+                (node.type === 'FunctionExpression' && node.async) ||
+                (node.type === 'ArrowFunctionExpression' && node.body.type === 'BlockStatement' && hasAwaitKeyword(node.body)) ||
+                (node.type === 'ArrowFunctionExpression' && node.body.type !== 'BlockStatement' && node.body.async)
             ) {
                 hasES6 = true;
             }
@@ -93,9 +95,8 @@ function hasES6Syntax(code) {
             }
 
             // 检查模块化的动态导入
-            if (
-                node.type === 'ImportExpression' ||
-                (node.type === 'CallExpression' && node.callee.name === 'import')
+            if (node.type === 'ImportExpression' ||
+                (node.type === 'CallExpression' && node.callee && node.callee.name === 'import')
             ) {
                 hasES6 = true;
             }
@@ -116,7 +117,8 @@ function hasES6Syntax(code) {
             }
 
             // 检查类的私有字段语法
-            if (node.type === 'ClassProperty' && node.key.name.startsWith('#')) {
+            if (node.type === 'ClassProperty' && node.key &&
+                node.key.name && node.key.name.startsWith('#')) {
                 hasES6 = true;
             }
 
@@ -126,7 +128,7 @@ function hasES6Syntax(code) {
             }
 
             // 检查数值分隔符
-            if (node.type === 'Literal' && node.raw.includes('_')) {
+            if (node.type === 'Literal' && node.raw &&node.raw.includes('_')) {
                 hasES6 = true;
             }
 
@@ -138,6 +140,7 @@ function hasES6Syntax(code) {
             // 检查Promise.allSettled()
             if (
                 node.type === 'CallExpression' &&
+                node.callee &&
                 node.callee.property &&
                 node.callee.property.name === 'allSettled'
             ) {
@@ -177,7 +180,9 @@ function hasES6Syntax(code) {
             // 检查默认导出的命名空间导入
             if (
                 node.type === 'ImportSpecifier' &&
+                node.imported &&
                 node.imported.name === 'default' &&
+                node.local &&
                 node.local.name !== 'default'
             ) {
                 hasES6 = true;
@@ -198,7 +203,9 @@ function hasES6Syntax(code) {
             // 检查数组解构赋值的默认值
             if (
                 node.type === 'AssignmentPattern' &&
+                node.left &&
                 node.left.type === 'ArrayPattern' &&
+                node.left.elements &&
                 node.left.elements.some(element => element.type === 'AssignmentPattern')
             ) {
                 hasES6 = true;
@@ -230,7 +237,7 @@ function hasES6Syntax(code) {
             if (
                 node.type === 'ClassDeclaration' ||
                 node.type === 'ClassExpression' ||
-                (node.type === 'CallExpression' && node.callee.name === 'extends')
+                (node.type === 'CallExpression' && node.callee && node.callee.name === 'extends')
             ) {
                 hasES6 = true;
             }
@@ -243,6 +250,7 @@ function hasES6Syntax(code) {
             // 检查 Set 和 Map 数据结构语法
             if (
                 node.type === 'NewExpression' &&
+                node.callee &&
                 (node.callee.name === 'Set' || node.callee.name === 'Map')
             ) {
                 hasES6 = true;
@@ -251,7 +259,7 @@ function hasES6Syntax(code) {
             // 检查可迭代协议（Iterable Protocol）
             if (
                 node.type === 'ForOfStatement' ||
-                (node.type === 'CallExpression' && node.callee.name === 'Symbol.iterator')
+                (node.type === 'CallExpression' && node.callee && node.callee.name === 'Symbol.iterator')
             ) {
                 hasES6 = true;
             }
@@ -269,6 +277,15 @@ function hasES6Syntax(code) {
         }
     });
 
+    // 辅助方法：检查await关键字
+    function hasAwaitKeyword(node) {
+        if (!node.body) return false;
+        if (node.body.type === 'AwaitExpression') return true;
+        if (Array.isArray(node.body.body)) {
+            return node.body.body.some(hasAwaitKeyword);
+        }
+        return false;
+    }
     return hasES6;
 }
 

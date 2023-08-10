@@ -4,7 +4,7 @@
   "description": "scan code contains es6",
   "main": "index.js",
   "bin": {
-    "es6-check": "./bin/gsx"
+    "es6-check": "./bin/es6-check"
   },
   "preferGlobal": true,
   "scripts": {

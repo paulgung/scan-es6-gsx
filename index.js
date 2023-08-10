@@ -1,21 +1,22 @@
-// 引入内置的 `process` 模块
 const process = require('process');
 const path = require('path');
+const minimist = require('minimist');
 
 // 获取命令行参数
-const args = process.argv.slice(2);
+const argv = minimist(process.argv.slice(2));
 const cwd = process.cwd();
 
 // 引入主方法
 const scanFolderForES6Syntax = require('./scanFolder');
+const scanHelper = require('./scanHelper');
 
-// 读取命令行的指定path路径
-// 示例用法: node index.js 或者 node index.js dist 或者 node index.js --path=dist
-let folderPath = args[0] ? path.join(cwd, args[0]) : path.join(cwd, './dist');
-args.forEach(arg => {
-    if (arg.startsWith('--path=')) {
-        folderPath = path.join(__dirname, arg.substring(7));
-    }
-});
+if (argv.h || argv.help) {
+    scanHelper();
+} else {
+    // 获取相对路径
+    const relativePath = argv.p || argv.path || 'dist';
+    // 拼接绝对路径
+    const folderPath = path.join(cwd, relativePath);
+    scanFolderForES6Syntax(folderPath);
+}
 
-scanFolderForES6Syntax(folderPath);

@@ -2,16 +2,22 @@
 
 ### 概述
 
-本插件用于检查给定的 JavaScript 代码是否包含 ES6 特性，使用了 `esprima` 和 `estraverse` 库来解析和遍历代码的语法树，并针对不同的节点类型来判断是否存在 ES6 特性。
+本插件用于检查打包后的前端产物（主要检查以.js结尾的文件）是否包含 ES6 特性，原理是通过 `acorn` 和 `estraverse`库来解析和遍历代码的语法树，并针对不同的节点类型来判断是否存在 ES6 特性。
+
+acorn的作用：用来将js文件转换成AST语法树，一般要指定要解析的是ES6版本的代码。
+
+estraverse的作用：用来遍历语法树，访问AST语法树的节点，通过各种ES6语法特性的判断，进而确认代码是否包含 ES6 特性。
+
+源代码地址：https://github.com/paulgung/scan-es6-gsx
+
+npm包地址：https://www.npmjs.com/package/scan-es6-gsx
 
 ### 安装依赖
 
-在使用之前，需要安装相关依赖（请提前安装node环境），主要用到了 `esprima` 和 `estraverse` 库。可以使用以下命令进行安装：
+在使用之前，需要安装相关依赖（请提前安装node环境），主要用到了 `acorn` 和 `estraverse` 库。可以使用以下命令进行安装：
 
 ```sh
-npm install
-# 或
-yarn install
+npm install es6-check-gsx -g
 ```
 
 ### 使用方法
@@ -19,12 +25,22 @@ yarn install
 运行命令：
 
 ```sh
-gsx
+es6-check # 默认扫描dist目录
 # 或者
-gsx dist # dist 是你的指定扫描目录
+es6-check /build  # /build是你的指定扫描目录
 # 或者
-gsx --path=dist # dist 是你的指定扫描目录
+es6-check --path=dist  # dist 是你的指定扫描目录
 ```
+
+命令行运行效果：
+
+```sh
+es6-check /build
+# 文件 /Users/paulgung/WebstormProjects/react-tailwind/asd/build/static/js/787.d9fdfb85.chunk.js 中包含 ES6 语法
+# 文件 /Users/paulgung/WebstormProjects/react-tailwind/asd/build/static/js/main.57eda49b.js 中包含 ES6 语法
+```
+
+### 说明
 
 本插件的主要方法是scanCode.js，主要做了以下的es6特性的检查：
 

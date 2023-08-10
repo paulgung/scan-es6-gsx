@@ -5,7 +5,7 @@ function hasES6Syntax(code) {
     // 是否包含ES6代码
     let hasES6 = false;
 
-    // 通过esprima转换语法树
+    // 通过acorn转换语法树
     const syntaxTree = acorn.parse(code, { ecmaVersion: 'latest' });
 
     // 通过estraverse遍历语法树

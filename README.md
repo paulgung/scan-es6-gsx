@@ -27,15 +27,13 @@ npm install es6-check-es6-check -g
 ```sh
 es6-check # 默认扫描dist目录
 # 或者
-es6-check /build  # /build是你的指定扫描目录
-# 或者
 es6-check --path=dist  # dist 是你的指定扫描目录
 ```
 
 命令行运行效果：
 
 ```sh
-es6-check /build
+es6-check --path=./build
 # 文件 /Users/paulgung/WebstormProjects/react-tailwind/asd/build/static/js/787.d9fdfb85.chunk.js 中包含 ES6 语法
 # 文件 /Users/paulgung/WebstormProjects/react-tailwind/asd/build/static/js/main.57eda49b.js 中包含 ES6 语法
 ```

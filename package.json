@@ -1,6 +1,6 @@
 {
   "name": "scan-es6-gsx",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "scan code contains es6",
   "main": "index.js",
   "bin": {
@@ -12,6 +12,7 @@
   "author": "gongshaoxu",
   "license": "ISC",
   "dependencies": {
+    "acorn": "^8.10.0",
     "esprima": "^4.0.1",
     "estraverse": "^5.3.0",
     "fs": "^0.0.1-security",

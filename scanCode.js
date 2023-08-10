@@ -1,12 +1,12 @@
-const esprima = require('esprima');
 const estraverse = require('estraverse');
+const acorn = require('acorn');
 
 function hasES6Syntax(code) {
     // 是否包含ES6代码
     let hasES6 = false;
 
     // 通过esprima转换语法树
-    const syntaxTree = esprima.parseScript(code, { ecmaVersion: 6 });
+    const syntaxTree = acorn.parse(code, { ecmaVersion: 'latest' });
 
     // 通过estraverse遍历语法树
     estraverse.traverse(syntaxTree, {
@@ -220,7 +220,7 @@ function hasES6Syntax(code) {
             // 检查解构赋值的嵌套结构
             if (node.type === 'ArrayPattern' || node.type === 'ObjectPattern') {
                 if (
-                    node.elements.some(element => element.type === 'ArrayPattern' || element.type === 'ObjectPattern')
+                    node.elements && node.elements.some(element => element.type === 'ArrayPattern' || element.type === 'ObjectPattern')
                 ) {
                     hasES6 = true;
                 }
@@ -265,6 +265,7 @@ function hasES6Syntax(code) {
             if (node.type === 'Decorator') {
                 hasES6 = true;
             }
+
         }
     });
 

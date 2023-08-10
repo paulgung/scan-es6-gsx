@@ -4,7 +4,7 @@ const hasES6Syntax = require('./scanCode');
 
 // 扫描文件夹中的所有 JavaScript 文件并检查是否包含 ES6 语法
 function scanFolderForES6Syntax(folderPath) {
-    const files = fs.readdirSync(folderPath);
+    const files = fs.readdirSync(folderPath, 'utf-8');
 
     for (const file of files) {
         const filePath = path.join(folderPath, file);

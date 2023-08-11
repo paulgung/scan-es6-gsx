@@ -17,7 +17,7 @@ npm包地址：https://www.npmjs.com/package/scan-es6-gsx
 在使用之前，需要安装相关依赖（请提前安装node环境），主要用到了 `acorn` 和 `estraverse` 库。可以使用以下命令进行安装：
 
 ```sh
-npm install es6-check-es6-check -g
+npm install es6-check-gsx -g
 ```
 
 ### 使用方法
@@ -33,7 +33,7 @@ es6-check --path=dist  # dist 是你的指定扫描目录
 命令行运行效果：
 
 ```sh
-es6-check --path=./build
+es6-check --path=asd/build
 # 文件 /Users/paulgung/WebstormProjects/react-tailwind/asd/build/static/js/787.d9fdfb85.chunk.js 中包含 ES6 语法
 # 文件 /Users/paulgung/WebstormProjects/react-tailwind/asd/build/static/js/main.57eda49b.js 中包含 ES6 语法
 ```
